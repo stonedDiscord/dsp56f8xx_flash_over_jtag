@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          host: 'linux'
+          target: 'desktop'
+          arch: 'gcc_64'
+          cache: true
+          cache-key-prefix: install-qt-action
+          
+      # Runs a set of commands using the runners shell
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
+          qmake DSP568xx_jtag_flasher.pro
+          
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsp-linux
+          path: bin/
+  
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+      
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          target: desktop
+          arch: win64_msvc2019_64
+          cache: true
+          cache-key-prefix: install-qt-action
+     
+      - name: Build
+        run: |
+          cd $Env:GITHUB_WORKSPACE
+          qmake DSP568xx_jtag_flasher.pro
+          windeployqt bin\*.exe --release --no-translations --no-compiler-runtime --no-opengl-sw
+          
+      - name: Upload zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsp-windows
+          path: bin\
