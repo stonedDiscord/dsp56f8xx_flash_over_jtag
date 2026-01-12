@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libftdi-dev
+          version: 1.0
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
@@ -60,7 +65,7 @@ jobs:
         run: |
           cd $Env:GITHUB_WORKSPACE
           qmake DSP568xx_jtag_flasher.pro
-          make
+          nmake
           windeployqt bin\*.exe --release --no-translations --no-compiler-runtime --no-opengl-sw
           
       - name: Upload zip
