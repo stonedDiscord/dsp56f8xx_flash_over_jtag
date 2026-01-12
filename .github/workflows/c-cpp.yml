@@ -31,6 +31,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           qmake DSP568xx_jtag_flasher.pro
+          make
           
       - name: Upload binary
         uses: actions/upload-artifact@v4
@@ -59,6 +60,7 @@ jobs:
         run: |
           cd $Env:GITHUB_WORKSPACE
           qmake DSP568xx_jtag_flasher.pro
+          make
           windeployqt bin\*.exe --release --no-translations --no-compiler-runtime --no-opengl-sw
           
       - name: Upload zip
