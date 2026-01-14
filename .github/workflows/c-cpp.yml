@@ -50,11 +50,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
 
-      - uses: actions/checkout@v6
-        with:
-          repository: 'avrdudes/libftdi'
-          path: libftdi
-
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -63,11 +58,27 @@ jobs:
           arch: win64_msvc2019_64
           cache: true
           cache-key-prefix: install-qt-action
-     
+
+      - name: Clone libftdi
+        uses: actions/checkout@v6
+        with:
+          repository: 'avrdudes/libftdi'
+          path: libftdi
+
+      - name: Build libftdi
+        working-directory: '${{ env.GITHUB_WORKSPACE }}/libftdi'
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+    
       - name: Build
         run: |
           $libftdiInc = Join-Path $Env:GITHUB_WORKSPACE 'libftdi\include'
+          $libftdiLib = Join-Path $Env:GITHUB_WORKSPACE 'libftdi\build'
           $Env:INCLUDE = "$Env:INCLUDE;$libftdiInc"
+          $Env:LIB = "$Env:LIB;$libftdiLib"
 
           qmake DSP568xx_jtag_flasher.pro
           nmake
