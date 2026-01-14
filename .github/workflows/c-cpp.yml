@@ -72,6 +72,7 @@ jobs:
           cd build
           cmake ..
           cmake --build .
+          cp ./Debug/libftdi.lib ./ftdi.lib
     
       - name: Build
         run: |
