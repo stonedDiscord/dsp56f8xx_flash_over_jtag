@@ -84,7 +84,6 @@ jobs:
 
           qmake DSP568xx_jtag_flasher.pro
           nmake
-          windeployqt debug/DSP568xx_jtag_flasher.exe --release --no-translations --no-compiler-runtime --no-opengl-sw
           
       - name: Upload zip
         uses: actions/upload-artifact@v4
