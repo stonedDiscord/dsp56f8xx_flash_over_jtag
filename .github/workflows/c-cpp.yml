@@ -71,9 +71,9 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
-          cmake --build .
-          cp ./Debug/libftdi.lib ./ftdi.lib
+          cmake --config Release ..
+          cmake --config Release --build .
+          cp ./Release/libftdi.lib ./ftdi.lib
     
       - name: Build
         run: |
@@ -89,4 +89,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dsp-flasher-windows
-          path: debug/DSP568xx_jtag_flasher.exe
+          path: release/DSP568xx_jtag_flasher.exe
