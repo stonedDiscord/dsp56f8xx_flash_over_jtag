@@ -72,8 +72,8 @@ jobs:
           mkdir build
           cd build
           cmake ..
-          nmake
-          cp ./debug/libftdi.lib ./ftdi.lib
+          cmake --build . --config Release
+          cp ./release/libftdi.lib ./ftdi.lib
     
       - name: Build
         run: |
