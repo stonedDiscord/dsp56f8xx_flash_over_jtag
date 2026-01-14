@@ -71,8 +71,8 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake --config Release ..
-          cmake --config Release --build .
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake -DCMAKE_BUILD_TYPE=Release --build .
           cp ./Release/libftdi.lib ./ftdi.lib
     
       - name: Build
