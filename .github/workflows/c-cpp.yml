@@ -66,9 +66,11 @@ jobs:
      
       - name: Build
         run: |
-          cd $Env:GITHUB_WORKSPACE
+          $libftdiInc = Join-Path $Env:GITHUB_WORKSPACE 'libftdi\include'
+          $Env:INCLUDE = "$Env:INCLUDE;$libftdiInc"
+
           qmake DSP568xx_jtag_flasher.pro
-          nmake -l ${GITHUB_WORKSPACE}/libftdi/
+          nmake
           windeployqt DSP568xx_jtag_flasher.exe --release --no-translations --no-compiler-runtime --no-opengl-sw
           
       - name: Upload zip
