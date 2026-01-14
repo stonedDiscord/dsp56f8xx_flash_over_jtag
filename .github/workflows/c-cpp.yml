@@ -49,7 +49,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
-      
+
+      - uses: actions/checkout@v6
+        with:
+          repository: 'avrdudes/libftdi'
+          path: libftdi
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -62,7 +67,7 @@ jobs:
       - name: Build
         run: |
           cd $Env:GITHUB_WORKSPACE
-          qmake DSP568xx_jtag_flasher.pro
+          qmake DSP568xx_jtag_flasher.pro -L$$GITHUB_WORKSPACE/libftdi/
           nmake
           windeployqt DSP568xx_jtag_flasher.exe --release --no-translations --no-compiler-runtime --no-opengl-sw
           
