@@ -62,7 +62,8 @@ jobs:
       - name: Clone libftdi
         uses: actions/checkout@v6
         with:
-          repository: 'avrdudes/libftdi'
+          repository: 'stonedDiscord/libftdi'
+          ref: 'windows'
           path: libftdi
 
       - name: Build libftdi
